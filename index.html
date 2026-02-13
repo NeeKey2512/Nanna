@@ -5,79 +5,89 @@
 <title>For Nanna ❤️</title>
 
 <style>
-    body{
-        margin:0;
-        height:100vh;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        background: linear-gradient(135deg,#ff6a88,#ff99ac);
-        font-family: 'Segoe UI', cursive;
-        overflow:hidden;
-    }
 
-    /* Floating Hearts */
-    .heart{
-        position:absolute;
-        color:#ff2e63;
-        animation: fall linear infinite;
-    }
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff758c,#ff7eb3,#ffc3a0);
+    font-family: 'Segoe UI', cursive;
+    overflow:hidden;
+}
 
-    @keyframes fall{
-        0%{transform:translateY(-10vh);}
-        100%{transform:translateY(110vh);}
-    }
+/* Glass Card */
+.card{
+    backdrop-filter: blur(15px);
+    background: rgba(255,255,255,0.15);
+    border:1px solid rgba(255,255,255,0.3);
+    padding:45px;
+    border-radius:30px;
+    text-align:center;
+    width:350px;
+    color:white;
+    box-shadow:0 0 40px rgba(255,255,255,0.4);
+}
 
-    .card{
-        background:white;
-        padding:40px;
-        border-radius:25px;
-        text-align:center;
-        width:340px;
-        box-shadow:0 10px 40px rgba(0,0,0,0.25);
-    }
+/* Title */
+h1{
+    font-size:30px;
+    margin-bottom:20px;
+}
 
-    h1{
-        color:#ff2e63;
-        margin-bottom:10px;
-    }
+/* Typewriter text */
+#text{
+    font-size:22px;
+    min-height:90px;
+    line-height:1.7;
+}
 
-    .msg{
-        font-size:22px;
-        color:#444;
-        line-height:1.7;
-        margin-top:15px;
-    }
+/* Button */
+button{
+    margin-top:20px;
+    padding:12px 24px;
+    border:none;
+    border-radius:25px;
+    background:white;
+    color:#ff4d6d;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
 
-    button{
-        margin-top:20px;
-        padding:12px 20px;
-        border:none;
-        border-radius:20px;
-        background:#ff2e63;
-        color:white;
-        font-size:16px;
-        cursor:pointer;
-        transition:0.3s;
-    }
+button:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 15px white;
+}
 
-    button:hover{
-        background:#ff4f7d;
-        transform:scale(1.05);
-    }
+/* Hidden Message */
+#loveMsg{
+    display:none;
+    margin-top:20px;
+    font-size:20px;
+    animation:fade 1s ease;
+}
 
-    .hidden{
-        display:none;
-        margin-top:15px;
-        font-size:20px;
-        color:#ff2e63;
-        animation: fade 1s ease;
-    }
+@keyframes fade{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+}
 
-    @keyframes fade{
-        from{opacity:0; transform:translateY(10px);}
-        to{opacity:1; transform:translateY(0);}
-    }
+/* Floating hearts */
+.heart{
+    position:absolute;
+    bottom:-10px;
+    color:white;
+    animation:float 6s linear infinite;
+    opacity:0.8;
+}
+
+@keyframes float{
+    0%{transform:translateY(0) scale(1);}
+    100%{transform:translateY(-110vh) scale(1.5);}
+}
+
 </style>
 </head>
 
@@ -86,22 +96,59 @@
 <div class="card">
     <h1>Happy Valentine's Day Nanna ❤️</h1>
 
-    <div class="msg">
-        I love you 😘 <br>
-        I miss you 🥺 <br><br>
-        You make this day special 💕
-    </div>
+    <div id="text"></div>
 
-    <button onclick="showLove()">Click Here 💌</button>
+    <button onclick="showLove()">Open My Heart 💌</button>
 
-    <div id="loveMsg" class="hidden">
-        You are my favorite person forever ❤️
+    <div id="loveMsg">
+        You are my today, tomorrow and forever 💖
     </div>
 </div>
 
 <script>
-    function showLove(){
-        document.getElementById("loveMsg").style.display="block";
-    }
 
-    // Falling hearts generator
+/* TYPEWRITER MESSAGE */
+const message = [
+"I love you 😘",
+"I miss you 🥺",
+"You make this day special 💕"
+];
+
+let line=0, char=0;
+
+function typeWriter(){
+    if(line < message.length){
+        if(char < message[line].length){
+            document.getElementById("text").innerHTML += message[line].charAt(char);
+            char++;
+            setTimeout(typeWriter,50);
+        }else{
+            document.getElementById("text").innerHTML += "<br>";
+            line++; char=0;
+            setTimeout(typeWriter,500);
+        }
+    }
+}
+typeWriter();
+
+/* BUTTON MESSAGE */
+function showLove(){
+    document.getElementById("loveMsg").style.display="block";
+}
+
+/* FLOATING HEARTS */
+function createHeart(){
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="❤";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(Math.random()*20+10)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+}
+setInterval(createHeart,300);
+
+</script>
+
+</body>
+</html>
